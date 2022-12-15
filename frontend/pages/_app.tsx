@@ -1,28 +1,36 @@
-import { FC } from 'react';
-// import Head from 'next/head';
-import { Provider } from 'react-redux';
+import { FC, useState } from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { AppProps } from 'next/app';
-import { wrapper } from 'redux/store';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { CacheProvider } from '@emotion/react';
+import { CacheProvider, EmotionCache } from '@emotion/react';
 import { createEmotionCache, theme } from 'utils/mui';
+import { config } from 'utils/toast/config';
 
 const clientSideEmotionCache = createEmotionCache();
 
-const MyApp: FC<AppProps> = ({ Component, ...rest }) => {
-  const { store, props } = wrapper.useWrappedStore(rest);
-  const { emotionCache = clientSideEmotionCache, pageProps } = props;
+interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache;
+}
+
+const MyApp: FC<MyAppProps> = props => {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Component {...pageProps} />
+          <ToastContainer {...config} />
+          <ReactQueryDevtools initialIsOpen={false} />
         </ThemeProvider>
       </CacheProvider>
-    </Provider>
+    </QueryClientProvider>
   );
 };
 
