@@ -20,6 +20,7 @@
 ### Built With
 
 ### FRONTEND
+
 - Next.js
 - Axios
 - Material UI
@@ -30,6 +31,7 @@
 - yup
 
 ### Backend
+
 - Node.js
 - Express.js
 - Bcryptjs
@@ -64,11 +66,6 @@ $ npm install
 
 # Environment variables (BACKEND)
 $ Create .env in root of project
-$ Follow the .env.example
-
-# Environment variables (FRONTEND)
-$ cd frontend
-$ Create .env
 $ Follow the .env.example
 
 # Run the both apps (FRONTEND & BACKEND)

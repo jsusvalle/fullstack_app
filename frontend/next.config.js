@@ -6,7 +6,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   env: {
-    API_URL: process.env.API_URL,
+    API_URL: "https://fullstackapp-production.up.railway.app/api",
   },
 };
 
