@@ -1,8 +1,11 @@
 import { FC, useState } from 'react';
+import { setCookie } from 'cookies-next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -14,9 +17,12 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+import { useLogin } from 'hooks/endpoints';
+
 import { userData } from 'types';
 
 export const LoginForm: FC = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -45,8 +51,18 @@ export const LoginForm: FC = () => {
     },
   });
 
+  const postLogin = useLogin({
+    onSuccess: data => {
+      setCookie('token', data.data.token);
+      router.push('/app/home');
+    },
+    onError: () => {
+      toast.error('Email o contraseña incorrectos');
+    },
+  });
+
   const onSubmit: SubmitHandler<userData> = data => {
-    console.log(data);
+    postLogin.mutate(data);
   };
 
   return (
@@ -68,6 +84,7 @@ export const LoginForm: FC = () => {
           <TextField
             {...field}
             {...register('email')}
+            focused
             id="email"
             label={'Correo'}
             type="email"
@@ -84,6 +101,7 @@ export const LoginForm: FC = () => {
           <TextField
             {...field}
             {...register('password')}
+            focused
             id="password"
             label="Contraseña"
             type={showPassword ? 'text' : 'password'}

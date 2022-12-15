@@ -13,6 +13,8 @@ import PhotoPeople from 'public/assets/people_photo.jpg';
 
 import { Header, Footer } from 'components/organism';
 
+import { navBarItems } from './navBarData';
+
 export const HomePage: FC = () => {
   return (
     <Box>
@@ -33,7 +35,7 @@ export const HomePage: FC = () => {
           }}
         />
         <Container maxWidth="lg">
-          <Header />
+          <Header items={navBarItems} />
 
           <Box
             height={600}

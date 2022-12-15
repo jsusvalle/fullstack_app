@@ -1,9 +1,13 @@
 import type { FC } from 'react';
 
-// import { Layout, ViewRepositories } from "components/templates";
+import { AppLayout, EditProfile } from 'components/templates';
 
 export const ProfilePage: FC = () => {
-  return <div>{/* <ViewRepositories isFavouritePage={false} /> */}</div>;
+  return (
+    <AppLayout>
+      <EditProfile />
+    </AppLayout>
+  );
 };
 
 export default ProfilePage;

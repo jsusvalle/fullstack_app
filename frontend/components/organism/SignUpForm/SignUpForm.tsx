@@ -1,8 +1,10 @@
 import { FC, useState } from 'react';
 import Link from 'next/link';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useRouter } from 'next/router';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -16,7 +18,10 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { userData } from 'types';
 
+import { useSignUp } from 'hooks/endpoints';
+
 export const SignUpForm: FC = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -49,8 +54,18 @@ export const SignUpForm: FC = () => {
     },
   });
 
+  const postSignUp = useSignUp({
+    onSuccess: () => {
+      toast.success('Usuario creado correctamente, inicie sesión');
+      router.push('/auth/login');
+    },
+    onError: e => {
+      toast.error(e?.response?.data?.message);
+    },
+  });
+
   const onSubmit: SubmitHandler<userData> = data => {
-    console.log(data);
+    postSignUp.mutate(data);
   };
 
   return (
@@ -60,7 +75,8 @@ export const SignUpForm: FC = () => {
       width="100%"
       display="flex"
       flexDirection="column"
-      rowGap="1.5rem">
+      rowGap="1.5rem"
+      autoComplete="off">
       <Typography py="1rem" variant="h4" fontWeight="bold">
         Registrarse
       </Typography>
@@ -72,6 +88,7 @@ export const SignUpForm: FC = () => {
           <TextField
             {...field}
             {...register('name')}
+            focused
             id="name"
             label={'Nombre'}
             type="name"
@@ -88,6 +105,7 @@ export const SignUpForm: FC = () => {
           <TextField
             {...field}
             {...register('address')}
+            focused
             id="address"
             label={'Dirección'}
             type="address"
@@ -104,6 +122,7 @@ export const SignUpForm: FC = () => {
           <TextField
             {...field}
             {...register('email')}
+            focused
             id="email"
             label={'Correo'}
             type="email"
@@ -120,6 +139,7 @@ export const SignUpForm: FC = () => {
           <TextField
             {...field}
             {...register('password')}
+            focused
             id="password"
             label="Contraseña"
             type={showPassword ? 'text' : 'password'}

@@ -1,9 +1,13 @@
 import type { FC } from 'react';
 
-// import { Layout, ViewRepositories } from "components/templates";
+import { AppLayout, HomeApp } from 'components/templates';
 
 export const HomePage: FC = () => {
-  return <div>{/* <ViewRepositories isFavouritePage={false} /> */}</div>;
+  return (
+    <AppLayout>
+      <HomeApp />
+    </AppLayout>
+  );
 };
 
 export default HomePage;

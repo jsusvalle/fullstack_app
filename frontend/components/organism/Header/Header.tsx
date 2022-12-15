@@ -15,11 +15,15 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-import { navBarItems } from './headerData';
+import { navBarItem } from 'types';
+
+type HeaderProps = {
+  items: navBarItem[];
+};
 
 const drawerWidth = 240;
 
-export const Header: FC = () => {
+export const Header: FC<HeaderProps> = ({ items }) => {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -38,7 +42,7 @@ export const Header: FC = () => {
       </Typography>
       <Divider />
       <List>
-        {navBarItems.map(item =>
+        {items.map(item =>
           item.type === 'link' ? (
             <ListItem key={item.name} disablePadding>
               <ListItemButton
@@ -100,7 +104,7 @@ export const Header: FC = () => {
               alignItems: 'center',
               gap: '.5rem',
             }}>
-            {navBarItems.map(item =>
+            {items.map(item =>
               item.type === 'link' ? (
                 <Button
                   key={item.name}
