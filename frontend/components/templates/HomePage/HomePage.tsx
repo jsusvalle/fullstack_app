@@ -147,11 +147,11 @@ export const HomePage: FC = () => {
         <Container maxWidth="lg">
           <Box
             display="flex"
-            justifyContent="between"
+            justifyContent="space-between"
             alignItems="center"
             flexDirection={{ xs: 'column', md: 'row' }}
             rowGap="2rem">
-            <Typography color="#fff">
+            <Typography color="#fff" textAlign="center">
               No obligations or contracts. Achoo influencer platform is
               available to all advertisers
             </Typography>
