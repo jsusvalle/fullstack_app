@@ -54,6 +54,21 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 })
 
+//* @desc Get all users
+//* @route GET /api/users
+//* @access Private
+const getUsers = asyncHandler(async (req, res) => {
+    const users = await User.find({});
+
+    if(users) {
+        res.json(users);
+    } else {
+        res.status(404)
+        throw new Error('Users no found')
+    }
+})
+
+
 //* @desc Get User profile
 //* @route GET /api/users/profile
 //* @access Private
@@ -104,4 +119,5 @@ export {
     registerUser,
     getUserProfile,
     updateUserProfile,
+    getUsers
 }
